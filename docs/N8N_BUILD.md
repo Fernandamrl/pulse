@@ -9,9 +9,9 @@ Os artefatos são:
 - `workflows/dist/PULSE_ADS_v6.js`
 - `workflows/dist/PULSE_TNS_v6.js`
 
-Nesta etapa, o Core Engine está presente no bundle como `PULSE_CORE`, mas não é chamado pelo processador. Portanto, o input, o texto do WhatsApp, o QuickChart e a saída estruturada continuam sendo produzidos pelo código v5 original.
+O artefato executa o processador v5 encapsulado e preserva seus campos de saída. Em seguida, a camada executiva v6 gera o novo `whatsappText`, reduz o tamanho do QuickChart e adiciona `decisionsV6`.
 
-ETA e sugestão de agentes permanecem placeholders `NOT_IMPLEMENTED` e não aparecem na saída atual.
+A capacidade exibida é uma estimativa mínima teórica baseada em backlog, AHT, tempo restante e ocupação de 85%. Ela não representa agentes adicionais, pois o snapshot atual não informa staffing já alocado.
 
 ## Pré-requisitos
 
@@ -48,7 +48,7 @@ Esse comando:
 2. compila sintaticamente cada arquivo como corpo de uma função, formato compatível com o top-level `return` do Code node;
 3. verifica a presença do bundle e a ausência de imports externos em runtime;
 4. executa os testes do Core Engine;
-5. confirma que o processador v5 é preservado integralmente no final de cada artefato.
+5. confirma que o processador v5 continua encapsulado em cada artefato.
 
 ## Copiar para o n8n
 
@@ -75,6 +75,6 @@ Repita o mesmo processo usando `workflows/dist/PULSE_TNS_v6.js` e um snapshot TN
 - Manter o node v5 como rollback.
 - A ativação produtiva requer aprovação separada.
 
-## Por que o comportamento é preservado
+## Compatibilidade
 
-O build não transforma o processador v5. Ele apenas adiciona antes dele um carregador de módulos autocontido. Um teste automatizado garante que o arquivo gerado termina com o conteúdo completo e inalterado do respectivo workflow v5. Como `PULSE_CORE` ainda não é chamado, nenhuma regra ou saída muda.
+O build não modifica os arquivos v5. Ele os encapsula e conserva seus campos de saída, aliases, targets, peak e histórico. A camada v6 altera apenas os artefatos em `dist`, com novo WhatsApp, gráfico menor e `decisionsV6`. O rollout continua separado e reversível.

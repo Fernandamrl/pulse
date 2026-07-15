@@ -13,7 +13,8 @@ var MODULES = [
   { id: './eta', file: 'eta.js' },
   { id: './staffing', file: 'staffing.js' },
   { id: './recommendation', file: 'recommendation.js' },
-  { id: './index', file: 'index.js' }
+  { id: './index', file: 'index.js' },
+  { id: './executive', file: '../v6/executive.js' }
 ];
 
 var TARGETS = [
@@ -63,7 +64,9 @@ function buildCoreBundle() {
     '    }',
     '    return cache[id].exports;',
     '  }',
-    "  return localRequire('./index');",
+    "  var core = localRequire('./index');",
+    "  core.executive = localRequire('./executive');",
+    '  return core;',
     '}());'
   ].join('\n');
 }
@@ -78,7 +81,10 @@ function buildTarget(target, bundle) {
     ''
   ].join('\n');
 
-  var generated = banner + bundle + '\n\n' + workflow;
+  var generated = banner + bundle + '\n\n' +
+    'function __pulseRunLegacy() {\n' + indent(workflow, 2) + '\n}\n\n' +
+    'var __pulseLegacyResult = __pulseRunLegacy();\n' +
+    'return PULSE_CORE.executive.enhance(__pulseLegacyResult, $input.first().json, { reportCode: ' + JSON.stringify(target.report) + ' });';
   var outputPath = path.join(ROOT, target.output);
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.writeFileSync(outputPath, generated, 'utf8');
