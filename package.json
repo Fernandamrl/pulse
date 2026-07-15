@@ -4,7 +4,7 @@
   "scripts": {
     "build": "node scripts/build-workflows.js",
     "validate": "node scripts/validate-workflows.js",
-    "test": "node tests/core-engine.test.js && node tests/build-workflows.test.js",
+    "test": "node tests/core-engine.test.js && node tests/executive-v6.test.js && node tests/build-workflows.test.js",
     "check": "npm run build && npm run validate && npm test"
   }
 }

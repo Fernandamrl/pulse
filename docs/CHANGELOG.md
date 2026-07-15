@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## v6.0 (In Development)
+- Added executive WhatsApp output with SLA urgency, breach age, data-backed reasons and theoretical minimum capacity from backlog/AHT.
+- Added smaller chart artifacts and structured `decisionsV6` output while preserving legacy fields.
 - Added a dependency-free build that generates standalone ADS and TNS n8n Code node artifacts.
 - Added automated syntax and source-preservation validation for generated workflows.
 - Documented build, copy, validation and rollback procedures for n8n.
